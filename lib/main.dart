@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -13,34 +15,65 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late GoogleMapController mapController;
+  //late GoogleMapController mapController;
+  final Completer<GoogleMapController> _controller = Completer();
 
   static const LatLng origin = LatLng(45.178920, 5.732690);
   static const LatLng destination = LatLng(45.1939059, 5.7657611);
-  //LocationData? currentLocation;
+  LocationData? currentLocation;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
 
   Map<MarkerId, Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = "AIzaSyAyzomgyk7Or0E4EL5mHeMa0ObAr1y0-l8";
+  String googleAPiKey = "AIzaSyDNvoOjptBGs4dqxhAzC_EmdH0FiPS-KyM";
 
-  @override
-  void initState() {
-    super.initState();
+  void getCurrentLocation() async {
+    Location location = Location();
 
-    /// origin marker
-    _addMarker(LatLng(origin.latitude, origin.longitude), "origin",
-        BitmapDescriptor.defaultMarker);
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
 
-    /// destination marker
-    _addMarker(LatLng(destination.latitude, destination.longitude),
-        "destination", BitmapDescriptor.defaultMarkerWithHue(90));
-    _getPolyline();
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    location.getLocation().then(
+      (location) {
+        currentLocation = location;
+      },
+    );
+
+    // GoogleMapController googleMapController = await _controller.future;
+
+    // location.onLocationChanged.listen((LocationData newLoc) {
+    //   currentLocation = newLoc;
+    //   googleMapController.animateCamera(
+    //     CameraUpdate.newCameraPosition(
+    //       CameraPosition(
+    //         zoom: 13,
+    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
+    //       ),
+    //     ),
+    //   );
+    //   setState(() {});
+    // });
   }
 
   void _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
+    //mapController = controller;
+    _controller.complete(controller);
   }
 
   _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
@@ -58,7 +91,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {});
   }
 
-  _getPolyline() async {
+  void _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(origin.latitude, origin.longitude),
@@ -74,25 +107,72 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+
+    /// origin marker
+    _addMarker(LatLng(origin.latitude, origin.longitude), "origin",
+        BitmapDescriptor.defaultMarker);
+
+    /// destination marker
+    _addMarker(LatLng(destination.latitude, destination.longitude),
+        "destination", BitmapDescriptor.defaultMarkerWithHue(90));
+
+    // current position
+    if (currentLocation?.latitude != null &&
+        currentLocation?.longitude != null) {
+      _addMarker(
+          LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          "origin",
+          BitmapDescriptor.defaultMarkerWithHue(360));
+    }
+    _getPolyline();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Maps Sample App'),
+            title: const Text('Maps App'),
             backgroundColor: Colors.green[700],
           ),
-          body: GoogleMap(
-            initialCameraPosition: CameraPosition(
-                target: LatLng(origin.latitude, origin.longitude), zoom: 15),
-            myLocationEnabled: true,
-            tiltGesturesEnabled: true,
-            compassEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            onMapCreated: _onMapCreated,
-            markers: Set<Marker>.of(markers.values),
-            polylines: Set<Polyline>.of(polylines.values),
-          )),
+          body: currentLocation != null
+              ? GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!),
+                    zoom: 13,
+                  ),
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: true,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  onMapCreated: _onMapCreated,
+                  markers: Set<Marker>.of(markers.values),
+                  // markers: {
+                  //   const Marker(
+                  //     markerId: MarkerId("source"),
+                  //     position: origin,
+                  //   ),
+                  //   const Marker(
+                  //     markerId: MarkerId("destination"),
+                  //     position: destination,
+                  //   ),
+                  // },
+                  polylines: Set<Polyline>.of(polylines.values),
+                  // polylines: {
+                  //   Polyline(
+                  //     polylineId: const PolylineId("route"),
+                  //     points: polylineCoordinates,
+                  //   )
+                  // },
+                )
+              : const Center(
+                  child: Text("Loading"),
+                )),
     );
   }
 }
