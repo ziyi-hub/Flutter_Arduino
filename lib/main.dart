@@ -3,23 +3,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Polyline example',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: MapScreen(),
-    );
-  }
-}
+void main() => runApp(const MapScreen());
 
 class MapScreen extends StatefulWidget {
+  const MapScreen({Key? key}) : super(key: key);
+
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -87,20 +75,24 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Maps Sample App'),
+            backgroundColor: Colors.green[700],
+          ),
           body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-            target: LatLng(origin.latitude, origin.longitude), zoom: 15),
-        myLocationEnabled: true,
-        tiltGesturesEnabled: true,
-        compassEnabled: true,
-        scrollGesturesEnabled: true,
-        zoomGesturesEnabled: true,
-        onMapCreated: _onMapCreated,
-        markers: Set<Marker>.of(markers.values),
-        polylines: Set<Polyline>.of(polylines.values),
-      )),
+            initialCameraPosition: CameraPosition(
+                target: LatLng(origin.latitude, origin.longitude), zoom: 15),
+            myLocationEnabled: true,
+            tiltGesturesEnabled: true,
+            compassEnabled: true,
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
+            onMapCreated: _onMapCreated,
+            markers: Set<Marker>.of(markers.values),
+            polylines: Set<Polyline>.of(polylines.values),
+          )),
     );
   }
 }
