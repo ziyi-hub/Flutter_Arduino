@@ -55,20 +55,20 @@ class _MapScreenState extends State<MapScreen> {
       },
     );
 
-    // GoogleMapController googleMapController = await _controller.future;
+    GoogleMapController googleMapController = await _controller.future;
 
-    // location.onLocationChanged.listen((LocationData newLoc) {
-    //   currentLocation = newLoc;
-    //   googleMapController.animateCamera(
-    //     CameraUpdate.newCameraPosition(
-    //       CameraPosition(
-    //         zoom: 13,
-    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
-    //       ),
-    //     ),
-    //   );
-    //   setState(() {});
-    // });
+    location.onLocationChanged.listen((LocationData newLoc) {
+      currentLocation = newLoc;
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 13,
+            target: LatLng(newLoc.latitude!, newLoc.longitude!),
+          ),
+        ),
+      );
+      setState(() {});
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) async {
