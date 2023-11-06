@@ -51,7 +51,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _addPolyLine() {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id, color: Colors.red, points: polylineCoordinates);
     polylines[id] = polyline;
