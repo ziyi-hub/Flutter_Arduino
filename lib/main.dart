@@ -30,6 +30,9 @@ class _MapScreenState extends State<MapScreen> {
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyDNvoOjptBGs4dqxhAzC_EmdH0FiPS-KyM";
 
+  //BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
+  //BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
+
   void getCurrentLocation() async {
     Location location = Location();
 
@@ -98,6 +101,7 @@ class _MapScreenState extends State<MapScreen> {
         PointLatLng(destination.latitude, destination.longitude),
         travelMode: TravelMode.driving,
         wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")]);
+    // Fix error
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -106,26 +110,53 @@ class _MapScreenState extends State<MapScreen> {
     _addPolyLine();
   }
 
+  // void setCustomMarkerIcon() {
+  //   BitmapDescriptor.fromAssetImage(
+  //           ImageConfiguration.empty, "assets/Badge.png")
+  //       .then(
+  //     (icon) {
+  //       currentLocationIcon = icon;
+  //     },
+  //   );
+  //   BitmapDescriptor.fromAssetImage(
+  //           ImageConfiguration.empty, "assets/Pin_destination.png")
+  //       .then(
+  //     (icon) {
+  //       destinationIcon = icon;
+  //     },
+  //   );
+  // }
+
   @override
   void initState() {
     getCurrentLocation();
+    //setCustomMarkerIcon();
     super.initState();
 
     /// origin marker
-    _addMarker(LatLng(origin.latitude, origin.longitude), "origin",
-        BitmapDescriptor.defaultMarker);
+    _addMarker(
+      LatLng(origin.latitude, origin.longitude),
+      "origin",
+      BitmapDescriptor.defaultMarker,
+    );
 
     /// destination marker
-    _addMarker(LatLng(destination.latitude, destination.longitude),
-        "destination", BitmapDescriptor.defaultMarkerWithHue(90));
+    _addMarker(
+      LatLng(destination.latitude, destination.longitude),
+      "destination",
+      //destinationIcon,
+      BitmapDescriptor.defaultMarkerWithHue(90),
+    );
 
     // current position
     if (currentLocation?.latitude != null &&
         currentLocation?.longitude != null) {
       _addMarker(
-          LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          "origin",
-          BitmapDescriptor.defaultMarkerWithHue(360));
+        LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+        "currentLocationIcon",
+        BitmapDescriptor.defaultMarker,
+        //currentLocationIcon,
+      );
     }
     _getPolyline();
   }
