@@ -89,7 +89,10 @@ class _MapScreenState extends State<MapScreen> {
   _addPolyLine() {
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+      polylineId: id,
+      color: Colors.red,
+      points: polylineCoordinates,
+    );
     polylines[id] = polyline;
     setState(() {});
   }
@@ -107,6 +110,8 @@ class _MapScreenState extends State<MapScreen> {
       for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
+    } else {
+      print(result.errorMessage);
     }
     _addPolyLine();
   }
@@ -132,7 +137,6 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     getCurrentLocation();
     //setCustomMarkerIcon();
-    super.initState();
 
     /// origin marker
     _addMarker(
@@ -159,7 +163,9 @@ class _MapScreenState extends State<MapScreen> {
         //currentLocationIcon,
       );
     }
+
     _getPolyline();
+    super.initState();
   }
 
   @override
