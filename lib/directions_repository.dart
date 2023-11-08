@@ -33,7 +33,7 @@ class DirectionsRepository {
 
     //Check if response is successfull
     if (response.statusCode == 200) {
-      print(Directions.fromMap(response.data));
+      //print(Directions.fromMap(response.data));
       return Directions.fromMap(response.data);
     } else {
       throw Exception('Failed to create event');

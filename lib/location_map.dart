@@ -87,10 +87,16 @@ class _LocationMapState extends State<LocationMap> {
                               " | " +
                               taskDetails.taskDetails),
                           subtitle:
+                              // (Provider.of<LocationProvider>(context).info) !=
+                              //         null
+                              //     ? Text(Provider.of<LocationProvider>(context)
+                              //         .stepsInstructions
+                              //         .toString())
+                              //     : Text(taskDetails.taskNote),
                               (Provider.of<LocationProvider>(context).info) !=
                                       null
                                   ? Text(Provider.of<LocationProvider>(context)
-                                      .stepsInstructions
+                                      .info
                                       .toString())
                                   : Text(taskDetails.taskNote),
                         ),

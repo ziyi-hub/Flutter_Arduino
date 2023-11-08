@@ -10,7 +10,7 @@ class Directions {
   final List<PointLatLng>? polylinePoints;
   final String? totalDistance;
   final String? totalDuration;
-  final List? totalSteps;
+  final List totalSteps;
 
   Directions(
       {required this.bounds,
@@ -21,13 +21,7 @@ class Directions {
 
   factory Directions.fromMap(Map<String, dynamic> map) {
     // Check if route is not available
-    if ((map['routes'] as List).isEmpty)
-      return Directions(
-          bounds: null,
-          polylinePoints: null,
-          totalDistance: null,
-          totalDuration: null,
-          totalSteps: null);
+    //if ((map['routes'] as List).isEmpty) return null;
 
     // Get route information
     final data = Map<String, dynamic>.from(map['routes'][0]);

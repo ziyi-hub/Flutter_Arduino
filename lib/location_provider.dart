@@ -7,7 +7,7 @@ import 'directions_model.dart';
 import 'directions_repository.dart';
 
 class LocationProvider with ChangeNotifier {
-  Directions? info;
+  late Directions? info = null;
   List<String>? stepsInstructions;
   late BitmapDescriptor _pinLocationIcon;
   late Map<MarkerId, Marker> _markers;
@@ -54,7 +54,7 @@ class LocationProvider with ChangeNotifier {
     final direction =
         await DirectionsRepository().getDirections(origin: origin, dest: dest);
     if (direction != null) {
-      print("=============================" + direction.toString());
+      print(direction.totalSteps);
       info = direction;
 
       notifyListeners();
@@ -77,11 +77,10 @@ class LocationProvider with ChangeNotifier {
         points: polylineCoordinates);
     polylines[id] = polyline;
 
-    // List<String> stepsInstructions = [];
-    // for (int i = 0; i <= info.totalSteps!.length; i++) {
-    //   stepsInstructions.add(removeAllHtmlTags(
-    //       info.totalSteps![i]['html_instructions'].toString()));
-    // }
+    List<dynamic> stepsInstructions = [];
+    for (int i = 0; i <= info.totalSteps.length; i++) {
+      stepsInstructions.add(info.totalSteps);
+    }
   }
 
   String removeAllHtmlTags(String htmlText) {
@@ -122,8 +121,6 @@ class LocationProvider with ChangeNotifier {
           currentLocation.latitude!,
           currentLocation.longitude!,
         );
-
-        print(_locationPosition);
 
         _markers.clear();
 
@@ -185,6 +182,6 @@ class LocationProvider with ChangeNotifier {
   }
 
   getInfo() {
-    return info;
+    return info!;
   }
 }

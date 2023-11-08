@@ -17,22 +17,16 @@ import 'location_map.dart';
 import 'location_provider.dart';
 
 void main() => runApp(
-      //WidgetsFlutterBinding.ensureInitialized();
-
-      //TaskDetail _taskDetail = TaskDetail("01", "Destination Address", "", 48.51, 14.55);
-
-      //const MapScreen(_taskDetail),
       MyMapScreen(
-          TaskDetail("01", "Destination Address", "", 45.1939059, 5.7657611)),
+          TaskDetail("01", "Destination Address", "ok", 45.1939059, 5.7657611)),
     );
 
 class MyMapScreen extends StatelessWidget {
+  late TaskDetail _taskDetail;
+
   MyMapScreen(TaskDetail taskDetails) {
     _taskDetail = taskDetails;
   }
-
-  TaskDetail _taskDetail =
-      TaskDetail("01", "Destination Address", "", 45.1939059, 5.7657611);
 
   @override
   Widget build(BuildContext context) {

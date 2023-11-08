@@ -6,7 +6,12 @@ class TaskDetail {
   final double lon;
 
   TaskDetail(
-      this.taskNumber, this.taskDetails, this.taskNote, this.lat, this.lon);
+    this.taskNumber,
+    this.taskDetails,
+    this.taskNote,
+    this.lat,
+    this.lon,
+  );
 
   TaskDetail.fromJson(Map<String, dynamic> data)
       : taskNumber = data['taskNumber'],
