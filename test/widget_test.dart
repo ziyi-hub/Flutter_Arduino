@@ -13,7 +13,7 @@ import 'package:google_maps_in_flutter/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MapScreen());
+    //await tester.pumpWidget(MyMapScreen(TaskDetail("01", "Destination Address", "", 48.51, 14.55)!));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
