@@ -22,6 +22,7 @@ bool _showCardView = true; //this is to map destination Info
 
 Color myHexColor = Color(0xff003499);
 String _timeString = "";
+//Widget result = const Text("");
 
 String _formatDateTime(DateTime dateTime) {
   return DateFormat('E | MMMM d, yyyy | hh:mm a').format(dateTime);
@@ -32,8 +33,22 @@ class _LocationMapState extends State<LocationMap> {
   void initState() {
     super.initState();
     _timeString = _formatDateTime(DateTime.now());
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    //result = const Text("indisponible");
+    Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
     Provider.of<LocationProvider>(context, listen: false).initialization();
+    //Timer.periodic(const Duration(seconds: 1), (Timer t) => _widgetbuilder());
+  }
+
+  Widget _widgetbuilder() {
+    Widget result = const Text("");
+    List<dynamic> instructions =
+        Provider.of<LocationProvider>(context).stepsInstructions[0];
+    for (final step in instructions) {
+      //Future.delayed(const Duration(seconds: 5));
+      //print("===================" + step.toString());
+      result = Text(step.toString());
+    }
+    return result;
   }
 
   void _getTime() {
@@ -43,19 +58,6 @@ class _LocationMapState extends State<LocationMap> {
       _timeString = formattedDateTime;
     });
   }
-
-  dynamic waitNextDirection() async {
-    List<dynamic> steps = [
-      {"name": 'sfs'},
-      {"name": 'sdfsdf'}
-    ];
-    for (final step in steps) {
-      await Future.delayed(const Duration(seconds: 1));
-      return step;
-    }
-  }
-
-  late dynamic test = waitNextDirection();
 
   @override
   Widget build(BuildContext context) {
@@ -103,15 +105,16 @@ class _LocationMapState extends State<LocationMap> {
                             title: Text(taskDetails.taskNumber +
                                 " | " +
                                 taskDetails.taskDetails),
-                            subtitle:
-                                (Provider.of<LocationProvider>(context).info) !=
-                                        null
-                                    ? Text(
-                                        Provider.of<LocationProvider>(context)
-                                            .stepsInstructions[0][1]
-                                            .toString(),
-                                      )
-                                    : Text(taskDetails.taskNote),
+                            subtitle: (Provider.of<LocationProvider>(context)
+                                        .info) !=
+                                    null
+                                // ? Text(
+                                //     Provider.of<LocationProvider>(context)
+                                //         .stepsInstructions[0][1]
+                                //         .toString(),
+                                //   )
+                                ? _widgetbuilder()
+                                : Text(taskDetails.taskNote),
                           ),
                           ButtonBar(
                             children: <Widget>[],
