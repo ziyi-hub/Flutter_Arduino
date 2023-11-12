@@ -22,6 +22,8 @@ bool _showCardView = true; //this is to map destination Info
 
 Color myHexColor = Color(0xff003499);
 String _timeString = "";
+Timer? timer;
+int count = 0;
 //Widget result = const Text("");
 
 String _formatDateTime(DateTime dateTime) {
@@ -36,20 +38,32 @@ class _LocationMapState extends State<LocationMap> {
     //result = const Text("indisponible");
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
     Provider.of<LocationProvider>(context, listen: false).initialization();
-    //Timer.periodic(const Duration(seconds: 1), (Timer t) => _widgetbuilder());
+    timer = Timer.periodic(
+        const Duration(seconds: 2),
+        (timer) => {
+              setState(() {
+                count++;
+              })
+            });
   }
 
-  Widget _widgetbuilder() {
-    Widget result = const Text("");
-    List<dynamic> instructions =
-        Provider.of<LocationProvider>(context).stepsInstructions[0];
-    for (final step in instructions) {
-      //Future.delayed(const Duration(seconds: 5));
-      //print("===================" + step.toString());
-      result = Text(step.toString());
-    }
-    return result;
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
+
+  // Widget _widgetbuilder() {
+  //   Widget result = const Text("");
+  //   List<dynamic> instructions =
+  //       Provider.of<LocationProvider>(context).stepsInstructions[0];
+  //   for (final step in instructions) {
+  //     //Future.delayed(const Duration(seconds: 5));
+  //     //print("===================" + step.toString());
+  //     result = Text(step.toString());
+  //   }
+  //   return result;
+  // }
 
   void _getTime() {
     final DateTime now = DateTime.now();
@@ -102,19 +116,21 @@ class _LocationMapState extends State<LocationMap> {
                         children: <Widget>[
                           ListTile(
                             leading: null,
-                            title: Text(taskDetails.taskNumber +
+                            title: Text("0" +
+                                count.toString() +
                                 " | " +
                                 taskDetails.taskDetails),
-                            subtitle: (Provider.of<LocationProvider>(context)
-                                        .info) !=
-                                    null
-                                // ? Text(
-                                //     Provider.of<LocationProvider>(context)
-                                //         .stepsInstructions[0][1]
-                                //         .toString(),
-                                //   )
-                                ? _widgetbuilder()
-                                : Text(taskDetails.taskNote),
+                            subtitle:
+                                (Provider.of<LocationProvider>(context).info) !=
+                                        null
+                                    ? Text(
+                                        Provider.of<LocationProvider>(context)
+                                            .stepsInstructions[0][count]
+                                            .toString(),
+                                      )
+                                    // ? Text("Counter reached $count")
+                                    // ? _widgetbuilder()
+                                    : Text(taskDetails.taskNote),
                           ),
                           ButtonBar(
                             children: <Widget>[],
