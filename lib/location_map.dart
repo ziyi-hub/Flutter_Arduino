@@ -44,87 +44,91 @@ class _LocationMapState extends State<LocationMap> {
     });
   }
 
+  Future<List<dynamic>> waitNextDirection(List step) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return step;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
+        resizeToAvoidBottomInset: false, // set it to false
         appBar: AppBar(
-            toolbarHeight: 65,
-            titleSpacing: 25,
-            backgroundColor: myHexColor,
-            leading: Transform.scale(
-                scale: 1.5,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(35, 0, 0, 0),
-                  child: Image.asset('assets/placeholder.png'),
-                )),
-            title: Text(
-              _timeString.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 15.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
-        body: Stack(children: <Widget>[
-          Container(
-            child: googleMapUI(),
-          ),
-          Container(
-            margin: EdgeInsets.all(20.0),
-            child: _showCardView
-                ? Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: null,
-                          title: Text(taskDetails.taskNumber +
-                              " | " +
-                              taskDetails.taskDetails),
-                          subtitle:
-                              // (Provider.of<LocationProvider>(context).info) !=
-                              //         null
-                              //     ? Text(Provider.of<LocationProvider>(context)
-                              //         .stepsInstructions
-                              //         .toString())
-                              //     : Text(taskDetails.taskNote),
-                              (Provider.of<LocationProvider>(context).info) !=
-                                      null
-                                  ? Text(Provider.of<LocationProvider>(context)
-                                      .info
-                                      .toString())
-                                  : Text(taskDetails.taskNote),
-                        ),
-                        ButtonBar(
-                          children: <Widget>[],
-                        ),
-                      ],
-                    ),
-                  )
-                : null,
-          ),
-          Container(
-            child: IconButton(
-              color: _showCardView ? Colors.grey[400] : myHexColor,
-              icon: _showCardView
-                  ? Icon(Icons.cancel)
-                  : Icon(
-                      Icons.info,
-                    ),
-              onPressed: () {
-                setState(() {
-                  // Here we changing the icon.
-                  _showCardView = !_showCardView;
-                });
-              },
+          toolbarHeight: 65,
+          titleSpacing: 25,
+          backgroundColor: myHexColor,
+          leading: Transform.scale(
+            scale: 1.5,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(35, 0, 0, 0),
+              child: Image.asset('assets/placeholder.png'),
             ),
-          )
-        ]),
+          ),
+          title: Text(
+            _timeString.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 15.0,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              child: googleMapUI(),
+            ),
+            Container(
+              margin: EdgeInsets.all(20.0),
+              child: _showCardView
+                  ? Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: null,
+                            title: Text(taskDetails.taskNumber +
+                                " | " +
+                                taskDetails.taskDetails),
+                            subtitle: (Provider.of<LocationProvider>(context)
+                                        .info) !=
+                                    null
+                                ? Text(Provider.of<LocationProvider>(context)
+                                    .stepsInstructions[0][1]
+                                    .toString())
+                                : Text(taskDetails.taskNote),
+                          ),
+                          ButtonBar(
+                            children: <Widget>[],
+                          ),
+                        ],
+                      ),
+                    )
+                  : null,
+            ),
+            Container(
+              child: IconButton(
+                color: _showCardView ? Colors.grey[400] : myHexColor,
+                icon: _showCardView
+                    ? Icon(Icons.cancel)
+                    : Icon(
+                        Icons.info,
+                      ),
+                onPressed: () {
+                  setState(() {
+                    // Here we changing the icon.
+                    _showCardView = !_showCardView;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
       ),
       onWillPop: () {
         return Future.value(true); // if true allow back else block it

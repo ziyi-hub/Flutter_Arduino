@@ -17,8 +17,8 @@ import 'location_map.dart';
 import 'location_provider.dart';
 
 void main() => runApp(
-      MyMapScreen(
-          TaskDetail("01", "Destination Address", "ok", 45.1939059, 5.7657611)),
+      MyMapScreen(TaskDetail("01", "Destination Address",
+          "Google maps indisponible", 45.1939059, 5.7657611)),
     );
 
 class MyMapScreen extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'directions_repository.dart';
 
 class LocationProvider with ChangeNotifier {
   late Directions? info = null;
-  List<String>? stepsInstructions;
+  List<dynamic> stepsInstructions = [];
   late BitmapDescriptor _pinLocationIcon;
   late Map<MarkerId, Marker> _markers;
   Map<MarkerId, Marker> get markers => _markers;
@@ -77,7 +77,6 @@ class LocationProvider with ChangeNotifier {
         points: polylineCoordinates);
     polylines[id] = polyline;
 
-    List<dynamic> stepsInstructions = [];
     for (int i = 0; i <= info.totalSteps.length; i++) {
       stepsInstructions.add(info.totalSteps);
     }
@@ -157,7 +156,7 @@ class LocationProvider with ChangeNotifier {
   }
 
   void moveCameraToUserLocation(double lat, double lon) async {
-    LatLng location = new LatLng(lat, lon);
+    LatLng location = LatLng(lat, lon);
     _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: location, zoom: 15),
