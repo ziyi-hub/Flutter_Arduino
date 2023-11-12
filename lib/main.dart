@@ -17,7 +17,7 @@ import 'location_map.dart';
 import 'location_provider.dart';
 
 void main() => runApp(
-      MyMapScreen(TaskDetail("01", "Destination Address",
+      MyMapScreen(TaskDetail("01", "Steps Instructions",
           "Google maps indisponible", 45.1939059, 5.7657611)),
     );
 

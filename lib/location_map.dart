@@ -44,10 +44,18 @@ class _LocationMapState extends State<LocationMap> {
     });
   }
 
-  Future<List<dynamic>> waitNextDirection(List step) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return step;
+  dynamic waitNextDirection() async {
+    List<dynamic> steps = [
+      {"name": 'sfs'},
+      {"name": 'sdfsdf'}
+    ];
+    for (final step in steps) {
+      await Future.delayed(const Duration(seconds: 1));
+      return step;
+    }
   }
+
+  late dynamic test = waitNextDirection();
 
   @override
   Widget build(BuildContext context) {
@@ -95,13 +103,15 @@ class _LocationMapState extends State<LocationMap> {
                             title: Text(taskDetails.taskNumber +
                                 " | " +
                                 taskDetails.taskDetails),
-                            subtitle: (Provider.of<LocationProvider>(context)
-                                        .info) !=
-                                    null
-                                ? Text(Provider.of<LocationProvider>(context)
-                                    .stepsInstructions[0][1]
-                                    .toString())
-                                : Text(taskDetails.taskNote),
+                            subtitle:
+                                (Provider.of<LocationProvider>(context).info) !=
+                                        null
+                                    ? Text(
+                                        Provider.of<LocationProvider>(context)
+                                            .stepsInstructions[0][1]
+                                            .toString(),
+                                      )
+                                    : Text(taskDetails.taskNote),
                           ),
                           ButtonBar(
                             children: <Widget>[],
