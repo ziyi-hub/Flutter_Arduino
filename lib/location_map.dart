@@ -53,17 +53,14 @@ class _LocationMapState extends State<LocationMap> {
     timer?.cancel();
   }
 
-  // Widget _widgetbuilder() {
-  //   Widget result = const Text("");
-  //   List<dynamic> instructions =
-  //       Provider.of<LocationProvider>(context).stepsInstructions[0];
-  //   for (final step in instructions) {
-  //     //Future.delayed(const Duration(seconds: 5));
-  //     //print("===================" + step.toString());
-  //     result = Text(step.toString());
-  //   }
-  //   return result;
-  // }
+  Widget _widgetbuilder() {
+    Widget result = Text(
+      Provider.of<LocationProvider>(context)
+          .stepsInstructions[0][count]
+          .toString(),
+    );
+    return result;
+  }
 
   void _getTime() {
     final DateTime now = DateTime.now();
@@ -120,17 +117,17 @@ class _LocationMapState extends State<LocationMap> {
                                 count.toString() +
                                 " | " +
                                 taskDetails.taskDetails),
-                            subtitle:
-                                (Provider.of<LocationProvider>(context).info) !=
-                                        null
-                                    ? Text(
-                                        Provider.of<LocationProvider>(context)
-                                            .stepsInstructions[0][count]
-                                            .toString(),
-                                      )
-                                    // ? Text("Counter reached $count")
-                                    // ? _widgetbuilder()
-                                    : Text(taskDetails.taskNote),
+                            subtitle: (Provider.of<LocationProvider>(context)
+                                        .info) !=
+                                    null
+                                ? _widgetbuilder()
+                                // ? Text(
+                                //     Provider.of<LocationProvider>(context)
+                                //         .stepsInstructions[0][count]
+                                //         .toString(),
+                                //   )
+
+                                : Text(taskDetails.taskNote),
                           ),
                           ButtonBar(
                             children: <Widget>[],
