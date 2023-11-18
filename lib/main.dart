@@ -31,11 +31,9 @@ void main() async {
 
 class MyMapScreen extends StatelessWidget {
   late TaskDetail _taskDetail;
-  //late Socket _socket;
 
   MyMapScreen(TaskDetail taskDetails) {
     _taskDetail = taskDetails;
-    //_socket = s;
   }
 
   @override

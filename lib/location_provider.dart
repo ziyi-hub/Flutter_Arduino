@@ -7,13 +7,13 @@ import 'directions_model.dart';
 import 'directions_repository.dart';
 
 class LocationProvider with ChangeNotifier {
-  late Directions? info = null;
+  Directions? info;
   List<dynamic> stepsInstructions = [];
   late BitmapDescriptor _pinLocationIcon;
   late Map<MarkerId, Marker> _markers;
   Map<MarkerId, Marker> get markers => _markers;
-  final MarkerId markerId = MarkerId("1");
-  late final MarkerId markerIdDest = MarkerId("Dest");
+  final MarkerId markerId = MarkerId("");
+  late final MarkerId markerIdDest = MarkerId("");
   late Marker markerDest;
   GoogleMapController? _mapController;
   GoogleMapController? get mapController => _mapController;

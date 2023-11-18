@@ -24,7 +24,7 @@ Color myHexColor = Color(0xff003499);
 String _timeString = "";
 Timer? timer;
 int count = 0;
-//Widget result = const Text("");
+int timeBeforeTurn = 2;
 
 String _formatDateTime(DateTime dateTime) {
   return DateFormat('E | MMMM d, yyyy | hh:mm a').format(dateTime);
@@ -35,16 +35,29 @@ class _LocationMapState extends State<LocationMap> {
   void initState() {
     super.initState();
     _timeString = _formatDateTime(DateTime.now());
-    //result = const Text("indisponible");
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
     Provider.of<LocationProvider>(context, listen: false).initialization();
-    timer = Timer.periodic(
-        const Duration(seconds: 2),
-        (timer) => {
-              setState(() {
-                count++;
-              })
-            });
+
+    setState(() {
+      //Provider.of<LocationProvider>(context, listen: false).info!.totalSteps.length
+      timer = Timer.periodic(
+          Duration(seconds: timeBeforeTurn),
+          (timer) => {
+                if (count <
+                    Provider.of<LocationProvider>(context, listen: false)
+                        .info!
+                        .totalSteps
+                        .length)
+                  {
+                    count++,
+                    timeBeforeTurn += int.parse(
+                        Provider.of<LocationProvider>(context)
+                                .stepsInstructions[0][count]['duration']["text"]
+                            [0]),
+                  },
+              });
+      // }
+    });
   }
 
   @override
@@ -54,11 +67,18 @@ class _LocationMapState extends State<LocationMap> {
   }
 
   Widget _widgetbuilder() {
-    Widget result = Text(
-      Provider.of<LocationProvider>(context)
-          .stepsInstructions[0][count]
-          .toString(),
-    );
+    Widget result = const Text("");
+    if (count <
+        Provider.of<LocationProvider>(context, listen: false)
+            .info!
+            .totalSteps
+            .length) {
+      result = Text(
+        Provider.of<LocationProvider>(context)
+            .stepsInstructions[0][count]["html_instructions"]
+            .toString(),
+      );
+    }
     return result;
   }
 
