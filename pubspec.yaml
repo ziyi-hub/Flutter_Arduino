@@ -44,6 +44,7 @@ dependencies:
   url_launcher: ^6.1.5
   http: ^0.13.5
   dio: ^5.3.3
+  flutter_bluetooth_serial: ^0.4.0
 
 dev_dependencies:
   pedantic: ^1.11.0

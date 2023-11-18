@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_in_flutter/SelecionarDispositivoPage.dart';
 import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:provider/provider.dart';
@@ -12,20 +13,29 @@ import 'package:http/http.dart';
 import 'package:dio/dio.dart';
 
 import 'MyMapScreen.dart';
+import 'accueil.dart';
 import 'TaskDetail.dart';
+import 'layout_bluetooth/StatusConexaoProvider.dart';
 import 'location_map.dart';
 import 'location_provider.dart';
 
-void main() => runApp(
-      MyMapScreen(TaskDetail("01", "Steps Instructions",
-          "Google maps indisponible", 45.1939059, 5.7657611)),
-    );
+void main() async {
+  //Socket sock = await Socket.connect('192.168.1.104', 80);
+  runApp(
+    MyMapScreen(
+      TaskDetail("01", "Steps Instructions", "Google maps indisponible",
+          45.1939059, 5.7657611),
+    ),
+  );
+}
 
 class MyMapScreen extends StatelessWidget {
   late TaskDetail _taskDetail;
+  //late Socket _socket;
 
   MyMapScreen(TaskDetail taskDetails) {
     _taskDetail = taskDetails;
+    //_socket = s;
   }
 
   @override
@@ -38,11 +48,21 @@ class MyMapScreen extends StatelessWidget {
                   LocationProvider(_taskDetail.lat, _taskDetail.lon),
               child: LocationMap(_taskDetail),
             ),
+            ChangeNotifierProvider<StatusConexaoProvider>.value(
+              value: StatusConexaoProvider(),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Map',
-            home: LocationMap(_taskDetail),
+            home: const Accueil(),
+            initialRoute: '/',
+            routes: {
+              // When navigating to the "/ardiuno" route, build the Ardiuno widget.
+              '/arduino': (context) => const SelecionarDispositivoPage(),
+              // When navigating to the "/ajout" route, build the AddEven widget.
+              '/map': (context) => LocationMap(_taskDetail),
+            },
           ),
         ),
         onWillPop: () {
