@@ -37,27 +37,29 @@ class _LocationMapState extends State<LocationMap> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
     Provider.of<LocationProvider>(context, listen: false).initialization();
+  }
 
-    setState(() {
-      //Provider.of<LocationProvider>(context, listen: false).info!.totalSteps.length
-      timer = Timer.periodic(
+  void trigger() {
+    setState(
+      () {
+        timer = Timer.periodic(
           Duration(seconds: timeBeforeTurn),
           (timer) => {
-                if (count <
-                    Provider.of<LocationProvider>(context, listen: false)
-                        .info!
-                        .totalSteps
-                        .length)
-                  {
-                    count++,
-                    timeBeforeTurn += int.parse(
-                        Provider.of<LocationProvider>(context)
-                                .stepsInstructions[0][count]['duration']["text"]
-                            [0]),
-                  },
-              });
-      // }
-    });
+            if (count <
+                Provider.of<LocationProvider>(context, listen: false)
+                    .info!
+                    .totalSteps
+                    .length)
+              {
+                count++,
+                // timeBeforeTurn += int.parse(
+                //     Provider.of<LocationProvider>(context).stepsInstructions[0]
+                //         [count]['duration']["text"][0]),
+              },
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -75,8 +77,14 @@ class _LocationMapState extends State<LocationMap> {
             .length) {
       result = Text(
         Provider.of<LocationProvider>(context)
-            .stepsInstructions[0][count]["html_instructions"]
-            .toString(),
+                .stepsInstructions[0][count]["html_instructions"]
+                .split('</b>')[0] +
+            "--" +
+            Provider.of<LocationProvider>(context).stepsInstructions[0][count]
+                ["distance"]["text"] +
+            "--" +
+            Provider.of<LocationProvider>(context).stepsInstructions[0][count]
+                ['duration']["text"],
       );
     }
     return result;
@@ -175,6 +183,12 @@ class _LocationMapState extends State<LocationMap> {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: trigger,
+          tooltip: 'Démarrer',
+          child: const Icon(Icons.garage_outlined),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       ),
       onWillPop: () {
         return Future.value(true); // if true allow back else block it
