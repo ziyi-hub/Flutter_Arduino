@@ -1,7 +1,15 @@
 // ignore_for_file: file_names
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../location_provider.dart';
 
 class ControlePrincipalPage extends StatefulWidget {
   final BluetoothDevice? server;
@@ -36,11 +44,21 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
   bool isDisconnecting = false;
   bool buttonClicado = false;
 
-  List<String> _languages = ['en_US', 'es_ES', 'pt_BR'];
+  String _timeString = "";
+  Timer? timer;
+  int count = 0;
+  int timeBeforeTurn = 2;
+
+  String _formatDateTime(DateTime dateTime) {
+    return DateFormat('E | MMMM d, yyyy | hh:mm a').format(dateTime);
+  }
 
   @override
   void initState() {
     super.initState();
+
+    _timeString = _formatDateTime(DateTime.now());
+    Provider.of<LocationProvider>(context, listen: false).initialization();
 
     BluetoothConnection.toAddress(widget.server!.address).then((_connection) {
       print('Connected to device');
@@ -72,6 +90,90 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
     });
   }
 
+  void trigger() {
+    setState(
+      () {
+        timer = Timer.periodic(
+          Duration(seconds: timeBeforeTurn),
+          (timer) => {
+            print("========================="),
+            if (count <
+                Provider.of<LocationProvider>(context, listen: false)
+                    .info!
+                    .totalSteps
+                    .length)
+              {
+                count++,
+                print("=====================" +
+                    count.toString() +
+                    "==================="),
+                _widgetbuilder(),
+                // timeBeforeTurn += int.parse(
+                //     Provider.of<LocationProvider>(context).stepsInstructions[0]
+                //         [count]['duration']["text"][0]),
+              },
+          },
+        );
+
+        print("<><><><><><><><>");
+      },
+    );
+  }
+
+  void _widgetbuilder() {
+    if (count <
+        Provider.of<LocationProvider>(context, listen: false)
+            .info!
+            .totalSteps
+            .length) {
+      if (Provider.of<LocationProvider>(context).stepsInstructions[0][count]
+              ["maneuver"] !=
+          null) {
+        if (Provider.of<LocationProvider>(context)
+            .stepsInstructions[0][count]["maneuver"]
+            .contains("right")) {
+          _turnRight();
+        } else {
+          _turnLeft();
+        }
+      } else {
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      }
+    }
+  }
+
+  void _turnRight() {
+    _sendData("R");
+    print("R");
+  }
+
+  void _turnLeft() {
+    _sendData("L");
+    print("L");
+  }
+
+  void _sendData(String param) {
+    if (connection != null) {
+      try {
+        connection!.output.add(ascii.encode(param)); // Send the character 'R'
+        connection!.output.allSent.then((_) {
+          print('Data sent');
+        });
+      } catch (e) {
+        print('Error sending data: $e');
+      }
+    }
+  }
+
+  void _disconnect() {
+    if (connection != null) {
+      connection!.dispose();
+      setState(() {
+        connection = null;
+      });
+    }
+  }
+
   @override
   void dispose() {
     // Avoid memory leak (`setState` after dispose) and disconnect
@@ -82,6 +184,7 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
     }
 
     super.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -114,10 +217,19 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Text("okkkkkkkk"),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: trigger,
+                child: Text('Send Data to Arduino'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _disconnect,
+                child: Text('Disconnect'),
+              ),
+            ],
           ),
         ),
       ),

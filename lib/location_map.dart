@@ -70,22 +70,25 @@ class _LocationMapState extends State<LocationMap> {
 
   Widget _widgetbuilder() {
     Widget result = const Text("");
+
     if (count <
         Provider.of<LocationProvider>(context, listen: false)
             .info!
             .totalSteps
             .length) {
-      result = Text(
-        Provider.of<LocationProvider>(context)
-                .stepsInstructions[0][count]["html_instructions"]
-                .split('</b>')[0] +
-            "--" +
-            Provider.of<LocationProvider>(context).stepsInstructions[0][count]
-                ["distance"]["text"] +
-            "--" +
-            Provider.of<LocationProvider>(context).stepsInstructions[0][count]
-                ['duration']["text"],
-      );
+      if (Provider.of<LocationProvider>(context).stepsInstructions[0][count]
+              ["maneuver"] !=
+          null) {
+        if (Provider.of<LocationProvider>(context)
+            .stepsInstructions[0][count]["maneuver"]
+            .contains("right")) {
+          result = const Text("R");
+        } else {
+          result = const Text("L");
+        }
+      }
+
+      //
     }
     return result;
   }
