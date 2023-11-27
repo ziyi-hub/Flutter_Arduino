@@ -30,6 +30,7 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
   static const clientID = 0;
   BluetoothConnection? connection;
   String? language;
+  Widget result = const Text("");
 
   // ignore: deprecated_member_use
   List<_Message> messages = <_Message>[];
@@ -44,7 +45,6 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
   bool isDisconnecting = false;
   bool buttonClicado = false;
 
-  String _timeString = "";
   Timer? timer;
   int count = 0;
   int timeBeforeTurn = 2;
@@ -57,7 +57,6 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
   void initState() {
     super.initState();
 
-    _timeString = _formatDateTime(DateTime.now());
     Provider.of<LocationProvider>(context, listen: false).initialization();
 
     BluetoothConnection.toAddress(widget.server!.address).then((_connection) {
@@ -96,7 +95,6 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
         timer = Timer.periodic(
           Duration(seconds: timeBeforeTurn),
           (timer) => {
-            print("========================="),
             if (count <
                 Provider.of<LocationProvider>(context, listen: false)
                     .info!
@@ -104,18 +102,32 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
                     .length)
               {
                 count++,
-                print("=====================" +
-                    count.toString() +
-                    "==================="),
-                _widgetbuilder(),
+                print("=======================START======================"),
+
+                if (Provider.of<LocationProvider>(context, listen: false)
+                        .stepsInstructions[0][count]["maneuver"] !=
+                    null)
+                  {
+                    print("=====================MANU========================"),
+                    if (Provider.of<LocationProvider>(context, listen: false)
+                        .stepsInstructions[0][count]["maneuver"]
+                        .contains("right"))
+                      {
+                        _turnRight(),
+                        print("==================RIGHT===================="),
+                      }
+                    else
+                      {
+                        _turnLeft(),
+                        print("==================LEFT===================="),
+                      }
+                  }
                 // timeBeforeTurn += int.parse(
                 //     Provider.of<LocationProvider>(context).stepsInstructions[0]
                 //         [count]['duration']["text"][0]),
               },
           },
         );
-
-        print("<><><><><><><><>");
       },
     );
   }
@@ -136,8 +148,6 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
         } else {
           _turnLeft();
         }
-      } else {
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       }
     }
   }
@@ -221,7 +231,9 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
-                onPressed: trigger,
+                onPressed: () => {
+                  trigger(),
+                },
                 child: Text('Send Data to Arduino'),
               ),
               SizedBox(height: 20),

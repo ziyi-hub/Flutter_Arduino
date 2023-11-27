@@ -35,7 +35,7 @@ class _MyMapPageState extends State<MyMapPage> {
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = 'AIzaSyDNvoOjptBGs4dqxhAzC_EmdH0FiPS-KyM';
+  String googleAPiKey = 'AIzaSyC8Ud6sFsTLM3dw1LbhUUmxC7IzyWq6YjM';
   Color myHexColor = Color(0xff003499);
   String _timeString = "";
 
