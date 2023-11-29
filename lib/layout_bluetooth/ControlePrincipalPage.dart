@@ -95,37 +95,38 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
         timer = Timer.periodic(
           Duration(seconds: timeBeforeTurn),
           (timer) => {
-            if (count <
-                Provider.of<LocationProvider>(context, listen: false)
-                    .info!
-                    .totalSteps
-                    .length)
-              {
-                count++,
-                print("=======================START======================"),
+            _widgetbuilder(),
+            // if (count <
+            //     Provider.of<LocationProvider>(context, listen: false)
+            //         .info!
+            //         .totalSteps
+            //         .length)
+            //   {
+            //     count++,
+            //     print("=======================START======================"),
 
-                if (Provider.of<LocationProvider>(context, listen: false)
-                        .stepsInstructions[0][count]["maneuver"] !=
-                    null)
-                  {
-                    print("=====================MANU========================"),
-                    if (Provider.of<LocationProvider>(context, listen: false)
-                        .stepsInstructions[0][count]["maneuver"]
-                        .contains("right"))
-                      {
-                        _turnRight(),
-                        print("==================RIGHT===================="),
-                      }
-                    else
-                      {
-                        _turnLeft(),
-                        print("==================LEFT===================="),
-                      }
-                  }
-                // timeBeforeTurn += int.parse(
-                //     Provider.of<LocationProvider>(context).stepsInstructions[0]
-                //         [count]['duration']["text"][0]),
-              },
+            //     if (Provider.of<LocationProvider>(context, listen: false)
+            //             .stepsInstructions[0][count]["maneuver"] !=
+            //         null)
+            //       {
+            //         print("=====================MANU========================"),
+            //         if (Provider.of<LocationProvider>(context, listen: false)
+            //             .stepsInstructions[0][count]["maneuver"]
+            //             .contains("right"))
+            //           {
+            //             _turnRight(),
+            //             print("==================RIGHT===================="),
+            //           }
+            //         else
+            //           {
+            //             _turnLeft(),
+            //             print("==================LEFT===================="),
+            //           }
+            //       }
+            // timeBeforeTurn += int.parse(
+            //     Provider.of<LocationProvider>(context).stepsInstructions[0]
+            //         [count]['duration']["text"][0]),
+            // },
           },
         );
       },
@@ -138,10 +139,13 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
             .info!
             .totalSteps
             .length) {
-      if (Provider.of<LocationProvider>(context).stepsInstructions[0][count]
-              ["maneuver"] !=
+      count++;
+      print("=======================START======================");
+      if (Provider.of<LocationProvider>(context, listen: false)
+              .stepsInstructions[0][count]["maneuver"] !=
           null) {
-        if (Provider.of<LocationProvider>(context)
+        print("=====================DETECTED========================");
+        if (Provider.of<LocationProvider>(context, listen: false)
             .stepsInstructions[0][count]["maneuver"]
             .contains("right")) {
           _turnRight();
@@ -154,12 +158,12 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
 
   void _turnRight() {
     _sendData("R");
-    print("R");
+    print("==================RIGHT====================");
   }
 
   void _turnLeft() {
     _sendData("L");
-    print("L");
+    print("==================LEFT====================");
   }
 
   void _sendData(String param) {
