@@ -96,37 +96,6 @@ class _ControlePrincipalPage extends State<ControlePrincipalPage> {
           Duration(seconds: timeBeforeTurn),
           (timer) => {
             _widgetbuilder(),
-            // if (count <
-            //     Provider.of<LocationProvider>(context, listen: false)
-            //         .info!
-            //         .totalSteps
-            //         .length)
-            //   {
-            //     count++,
-            //     print("=======================START======================"),
-
-            //     if (Provider.of<LocationProvider>(context, listen: false)
-            //             .stepsInstructions[0][count]["maneuver"] !=
-            //         null)
-            //       {
-            //         print("=====================MANU========================"),
-            //         if (Provider.of<LocationProvider>(context, listen: false)
-            //             .stepsInstructions[0][count]["maneuver"]
-            //             .contains("right"))
-            //           {
-            //             _turnRight(),
-            //             print("==================RIGHT===================="),
-            //           }
-            //         else
-            //           {
-            //             _turnLeft(),
-            //             print("==================LEFT===================="),
-            //           }
-            //       }
-            // timeBeforeTurn += int.parse(
-            //     Provider.of<LocationProvider>(context).stepsInstructions[0]
-            //         [count]['duration']["text"][0]),
-            // },
           },
         );
       },

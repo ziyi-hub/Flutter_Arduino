@@ -20,7 +20,6 @@ import 'location_map.dart';
 import 'location_provider.dart';
 
 void main() async {
-  //Socket sock = await Socket.connect('192.168.1.104', 80);
   runApp(
     MyMapScreen(
       TaskDetail("01", "Steps Instructions", "Google maps indisponible",

@@ -19,16 +19,18 @@ class DirectionsRepository {
   }) async {
     final response = await _dio.get(
       _baseUrl,
-      // queryParameters: {
-      //   'origin': '${origin!.latitude},${origin.longitude}',
-      //   'destination': '${dest!.latitude},${dest.longitude}',
-      //   'key': googleAPiKey
-      // },
       queryParameters: {
-        'origin': "20 Rue Monge, 38100 Grenoble",
-        'destination': "60 Rue de la Chimie, 38400 Saint-Martin-d'Hères",
+        'origin': "${origin!.latitude},${origin.longitude}",
+        'destination': "${dest!.latitude},${dest.longitude}",
+        'mode': "bicycling",
         'key': googleAPiKey
       },
+      // queryParameters: {
+      //   'origin': "20 Rue Monge, 38100 Grenoble",
+      //   'destination': "60 Rue de la Chimie, 38400 Saint-Martin-d'Hères",
+      //   'mode': "bicycling",
+      //   'key': googleAPiKey
+      // },
     );
 
     //Check if response is successfull

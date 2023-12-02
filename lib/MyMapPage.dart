@@ -46,7 +46,7 @@ class _MyMapPageState extends State<MyMapPage> {
   }
 
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(45.1939059, 5.7657611),
     zoom: 14.4746,
   );
 
