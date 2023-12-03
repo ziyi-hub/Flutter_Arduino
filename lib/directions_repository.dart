@@ -25,12 +25,6 @@ class DirectionsRepository {
         'mode': "bicycling",
         'key': googleAPiKey
       },
-      // queryParameters: {
-      //   'origin': "20 Rue Monge, 38100 Grenoble",
-      //   'destination': "60 Rue de la Chimie, 38400 Saint-Martin-d'Hères",
-      //   'mode': "bicycling",
-      //   'key': googleAPiKey
-      // },
     );
 
     //Check if response is successfull

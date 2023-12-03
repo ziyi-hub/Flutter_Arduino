@@ -54,7 +54,6 @@ class LocationProvider with ChangeNotifier {
     final direction =
         await DirectionsRepository().getDirections(origin: origin, dest: dest);
     if (direction != null) {
-      //print(direction.totalSteps);
       info = direction;
 
       notifyListeners();
