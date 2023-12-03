@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_in_flutter/SelecionarDispositivoPage.dart';
+import 'package:google_maps_in_flutter/SelectorDispositivePage.dart';
 import 'package:location/location.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,6 @@ import 'location_map.dart';
 import 'location_provider.dart';
 
 void main() async {
-  //Socket sock = await Socket.connect('192.168.1.104', 80);
   runApp(
     MyMapScreen(
       TaskDetail("01", "Steps Instructions", "Google maps indisponible",

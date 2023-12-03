@@ -46,7 +46,7 @@ class _MyMapPageState extends State<MyMapPage> {
   }
 
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(45.1939059, 5.7657611),
     zoom: 14.4746,
   );
 
@@ -57,18 +57,6 @@ class _MyMapPageState extends State<MyMapPage> {
   }
 
   void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
-    /*final destinationMarker = Marker(
-      markerId: MarkerId(taskDetails.taskNumber),
-      position: LatLng(taskDetails.lat, taskDetails.lon),
-      infoWindow: InfoWindow(
-        title: taskDetails.taskNumber,
-        snippet: taskDetails.taskDetails,
-      ),
-    );
-
-
-    _markers.clear();
-    _markers["Destination"] = destinationMarker;*/
     LatLng currentlatlng =
         LatLng(newLocalData.latitude!, newLocalData.longitude!);
     _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(

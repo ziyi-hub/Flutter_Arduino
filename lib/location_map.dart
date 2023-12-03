@@ -40,6 +40,7 @@ class _LocationMapState extends State<LocationMap> {
   }
 
   void trigger() {
+    //count = 0;
     setState(
       () {
         timer = Timer.periodic(
@@ -69,7 +70,7 @@ class _LocationMapState extends State<LocationMap> {
   }
 
   Widget _widgetbuilder() {
-    Widget result = const Text("");
+    Widget result = const RotatedBox(quarterTurns: 2, child: null);
 
     if (count <
         Provider.of<LocationProvider>(context, listen: false)
@@ -82,9 +83,40 @@ class _LocationMapState extends State<LocationMap> {
         if (Provider.of<LocationProvider>(context)
             .stepsInstructions[0][count]["maneuver"]
             .contains("right")) {
-          result = const Text("R");
+          result = const RotatedBox(
+            quarterTurns: 2,
+            child: IconButton(
+              icon: Icon(
+                Icons.subdirectory_arrow_left_sharp,
+                color: Colors.red,
+                size: 200.0,
+              ),
+              onPressed: null,
+            ),
+          );
         } else {
-          result = const Text("L");
+          result = const RotatedBox(
+            quarterTurns: 2,
+            child: IconButton(
+              icon: Icon(
+                Icons.subdirectory_arrow_left_sharp,
+                color: Colors.red,
+                size: 200.0,
+              ),
+              onPressed: null,
+            ),
+          );
+          result = const RotatedBox(
+            quarterTurns: 2,
+            child: IconButton(
+              icon: Icon(
+                Icons.subdirectory_arrow_right_sharp,
+                color: Colors.red,
+                size: 200.0,
+              ),
+              onPressed: null,
+            ),
+          );
         }
       }
 
@@ -140,25 +172,20 @@ class _LocationMapState extends State<LocationMap> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           ListTile(
                             leading: null,
                             title: Text("0" +
                                 count.toString() +
                                 " | " +
-                                taskDetails.taskDetails),
-                            subtitle: (Provider.of<LocationProvider>(context)
-                                        .info) !=
-                                    null
-                                ? _widgetbuilder()
-                                // ? Text(
-                                //     Provider.of<LocationProvider>(context)
-                                //         .stepsInstructions[0][count]
-                                //         .toString(),
-                                //   )
-
-                                : Text(taskDetails.taskNote),
+                                taskDetails.taskDetails +
+                                '\n\n\n\n\n\n\n\n\n\n\n\n\n\n'),
+                            subtitle:
+                                (Provider.of<LocationProvider>(context).info) !=
+                                        null
+                                    ? _widgetbuilder()
+                                    : Text(taskDetails.taskNote),
                           ),
                           ButtonBar(
                             children: <Widget>[],
