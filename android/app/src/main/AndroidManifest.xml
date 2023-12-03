@@ -19,7 +19,7 @@
    <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="false" />
 
     <application
-        android:label="google_maps_in_flutter"
+        android:label="Nav'lo"
         android:icon="@mipmap/ic_launcher">
 
         <!-- TODO: Add your Google Maps API key here -->
