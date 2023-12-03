@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'SelecionarDispositivoPage.dart';
+import 'SelectorDispositivePage.dart';
 import 'layout_bluetooth/ControlePrincipalPage.dart';
 import 'package:provider/provider.dart';
 import 'layout_bluetooth/CustomAppBar.dart';
