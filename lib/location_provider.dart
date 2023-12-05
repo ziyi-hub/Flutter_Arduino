@@ -10,6 +10,7 @@ class LocationProvider with ChangeNotifier {
   Directions? info;
   List<dynamic> stepsInstructions = [];
   late BitmapDescriptor _pinLocationIcon;
+  late BitmapDescriptor _driverIcon;
   late Map<MarkerId, Marker> _markers;
   Map<MarkerId, Marker> get markers => _markers;
   final MarkerId markerId = MarkerId("");
@@ -21,6 +22,7 @@ class LocationProvider with ChangeNotifier {
   late Location _location;
   Location get location => _location;
   BitmapDescriptor get pinLocationIcon => _pinLocationIcon;
+  BitmapDescriptor get driverIcon => _driverIcon;
 
   LatLng? _locationPosition;
   LatLng? get locationPosition => _locationPosition;
@@ -129,6 +131,7 @@ class LocationProvider with ChangeNotifier {
             _locationPosition!.latitude,
             _locationPosition!.longitude,
           ),
+          icon: driverIcon,
           draggable: false,
           onDragEnd: ((newPosition) {
             _locationPosition = LatLng(
@@ -173,6 +176,11 @@ class LocationProvider with ChangeNotifier {
     _pinLocationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(devicePixelRatio: 2.5),
       'assets/destination_map_marker.png',
+    );
+
+    _driverIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 2.5),
+      'assets/Badge.png',
     );
   }
 
