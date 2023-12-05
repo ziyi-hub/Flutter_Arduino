@@ -23,7 +23,7 @@ void main() async {
   runApp(
     MyMapScreen(
       TaskDetail("01", "Steps Instructions", "Google maps indisponible",
-          45.1939059, 5.7657611),
+          45.1938021, 5.7688764),
     ),
   );
 }

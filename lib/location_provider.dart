@@ -27,7 +27,7 @@ class LocationProvider with ChangeNotifier {
 
   bool locationServiceActive = true;
 
-  late LatLng _locationPositionDestination;
+  late LatLng _locationPositionDestination = LatLng(45.1938021, 5.7688764);
 
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];

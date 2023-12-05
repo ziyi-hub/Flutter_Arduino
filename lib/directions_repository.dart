@@ -21,7 +21,7 @@ class DirectionsRepository {
       _baseUrl,
       queryParameters: {
         'origin': "${origin!.latitude},${origin.longitude}",
-        'destination': "${dest!.latitude},${dest.longitude}",
+        'destination': "${45.1709187},${5.6879342}",
         'mode': "bicycling",
         'key': googleAPiKey
       },

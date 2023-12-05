@@ -35,7 +35,7 @@ class _LocationMapState extends State<LocationMap> {
   void initState() {
     super.initState();
     _timeString = _formatDateTime(DateTime.now());
-    Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
+    Timer.periodic(const Duration(seconds: 2), (Timer t) => _getTime());
     Provider.of<LocationProvider>(context, listen: false).initialization();
   }
 

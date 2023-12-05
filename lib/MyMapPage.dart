@@ -21,8 +21,7 @@ class MyMapPage extends StatefulWidget {
   _MyMapPageState createState() => _MyMapPageState(taskDetails);
 }
 
-TaskDetail taskDetails = new TaskDetail(
-    "03", "Test Task", "Sample data", 24.92882971812439, 67.0578712459639);
+TaskDetail taskDetails = new TaskDetail("03", "Test Task", "Sample data", 0, 0);
 
 class _MyMapPageState extends State<MyMapPage> {
   late StreamSubscription _locationSubscription;
@@ -46,7 +45,7 @@ class _MyMapPageState extends State<MyMapPage> {
   }
 
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(45.1939059, 5.7657611),
+    target: LatLng(45.1938021, 5.7688764),
     zoom: 14.4746,
   );
 
