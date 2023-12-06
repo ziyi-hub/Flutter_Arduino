@@ -53,9 +53,9 @@ class _LocationMapState extends State<LocationMap> {
                     .length)
               {
                 count++,
-                // timeBeforeTurn += int.parse(
+                // timeBeforeTurn = int.parse(
                 //     Provider.of<LocationProvider>(context).stepsInstructions[0]
-                //         [count]['duration']["text"][0]),
+                //         [count+1]['duration']["text"][0]),
               },
           },
         );

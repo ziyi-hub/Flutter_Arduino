@@ -21,7 +21,7 @@ class MyMapPage extends StatefulWidget {
   _MyMapPageState createState() => _MyMapPageState(taskDetails);
 }
 
-TaskDetail taskDetails = new TaskDetail("03", "Test Task", "Sample data", 0, 0);
+TaskDetail taskDetails = new TaskDetail("", "", "", 0, 0);
 
 class _MyMapPageState extends State<MyMapPage> {
   late StreamSubscription _locationSubscription;

@@ -4,7 +4,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'dart:async';
 import 'layout_bluetooth/ListaBluetoothPage.dart';
 import '../accueil.dart';
-import 'layout_bluetooth/StatusConexaoProvider.dart';
+import 'layout_bluetooth/StatusConnexionProvider.dart';
 import 'package:provider/provider.dart';
 import 'layout_bluetooth/CustomAppBar.dart';
 

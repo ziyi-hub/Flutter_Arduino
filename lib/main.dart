@@ -15,7 +15,7 @@ import 'package:dio/dio.dart';
 import 'MyMapScreen.dart';
 import 'accueil.dart';
 import 'TaskDetail.dart';
-import 'layout_bluetooth/StatusConexaoProvider.dart';
+import 'layout_bluetooth/StatusConnexionProvider.dart';
 import 'location_map.dart';
 import 'location_provider.dart';
 
@@ -57,7 +57,7 @@ class MyMapScreen extends StatelessWidget {
             routes: {
               // When navigating to the "/ardiuno" route, build the Ardiuno widget.
               '/arduino': (context) => const SelecionarDispositivoPage(),
-              // When navigating to the "/ajout" route, build the AddEven widget.
+              // When navigating to the "/map" route, build the AddEven widget.
               '/map': (context) => LocationMap(_taskDetail),
             },
           ),

@@ -3,7 +3,7 @@ import 'SelectorDispositivePage.dart';
 import 'layout_bluetooth/ControlePrincipalPage.dart';
 import 'package:provider/provider.dart';
 import 'layout_bluetooth/CustomAppBar.dart';
-import 'layout_bluetooth/StatusConexaoProvider.dart';
+import 'layout_bluetooth/StatusConnexionProvider.dart';
 
 class Accueil extends StatelessWidget {
   const Accueil({Key? key}) : super(key: key);
