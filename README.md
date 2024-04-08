@@ -10,3 +10,4 @@
 
 # Liens utils
 - [Diapo](https://docs.google.com/presentation/d/1GIkrBGzSvYKIATKclvHLd55Ha3GeSlNGlg4eoM4Fr0k/edit?usp=drive_link)
+- [Cours](http://iihm.imag.fr/nigay/ENSEIG/M2GI/)
